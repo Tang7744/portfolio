@@ -93,3 +93,33 @@ if (header && menuButton && sectionMenu) {
     if (event.key === "Escape") closeMenu();
   });
 }
+
+const tiltedCard = document.querySelector(".profile-card");
+
+if (tiltedCard) {
+  const maxTilt = 10;
+
+  tiltedCard.addEventListener("pointermove", (event) => {
+    const rect = tiltedCard.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateY = ((x - centerX) / centerX) * maxTilt;
+    const rotateX = ((centerY - y) / centerY) * maxTilt;
+
+    tiltedCard.style.setProperty("--tilt-x", `${rotateX.toFixed(2)}deg`);
+    tiltedCard.style.setProperty("--tilt-y", `${rotateY.toFixed(2)}deg`);
+    tiltedCard.style.setProperty("--tilt-scale", "1.035");
+    tiltedCard.style.setProperty("--glare-x", `${((x / rect.width) * 100).toFixed(1)}%`);
+    tiltedCard.style.setProperty("--glare-y", `${((y / rect.height) * 100).toFixed(1)}%`);
+  });
+
+  tiltedCard.addEventListener("pointerleave", () => {
+    tiltedCard.style.setProperty("--tilt-x", "0deg");
+    tiltedCard.style.setProperty("--tilt-y", "0deg");
+    tiltedCard.style.setProperty("--tilt-scale", "1");
+    tiltedCard.style.setProperty("--glare-x", "50%");
+    tiltedCard.style.setProperty("--glare-y", "50%");
+  });
+}
