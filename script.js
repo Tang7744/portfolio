@@ -98,6 +98,7 @@ const tiltedCard = document.querySelector(".profile-card");
 
 if (tiltedCard) {
   const maxTilt = 10;
+  const lanyardBadge = tiltedCard.querySelector(".lanyard-badge");
 
   tiltedCard.addEventListener("pointermove", (event) => {
     const rect = tiltedCard.getBoundingClientRect();
@@ -122,4 +123,46 @@ if (tiltedCard) {
     tiltedCard.style.setProperty("--glare-x", "50%");
     tiltedCard.style.setProperty("--glare-y", "50%");
   });
+
+  const updateLanyard = () => {
+    const rect = tiltedCard.getBoundingClientRect();
+    const triggerPoint = window.innerHeight * 0.72;
+    const visible = rect.top < triggerPoint && rect.bottom > window.innerHeight * 0.12;
+    const rawProgress = 1 - Math.max(0, rect.top) / triggerPoint;
+    const progress = Math.min(1, Math.max(0, rawProgress));
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const drop = -210 + 210 * eased;
+    const rotate = -12 + 10 * eased;
+
+    if (lanyardBadge) {
+      lanyardBadge.style.setProperty("--lanyard-drop", `${drop.toFixed(1)}px`);
+      lanyardBadge.style.setProperty("--lanyard-rotate", `${rotate.toFixed(2)}deg`);
+    }
+
+    tiltedCard.classList.toggle("lanyard-ready", visible && progress > 0.92);
+    tiltedCard.style.setProperty("--lanyard-progress", String(Math.max(0.42, eased).toFixed(2)));
+  };
+
+  window.addEventListener("scroll", updateLanyard, { passive: true });
+  window.addEventListener("resize", updateLanyard);
+  updateLanyard();
 }
+
+const aboutTabs = document.querySelectorAll(".about-tab");
+const aboutPanels = document.querySelectorAll(".experience-content");
+
+aboutTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const target = tab.dataset.tab;
+
+    aboutTabs.forEach((item) => {
+      const isActive = item === tab;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-selected", String(isActive));
+    });
+
+    aboutPanels.forEach((panel) => {
+      panel.classList.toggle("is-active", panel.dataset.panel === target);
+    });
+  });
+});

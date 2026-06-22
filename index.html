@@ -55,20 +55,28 @@
       </section>
 
       <section class="section about" id="about">
-        <div class="section-heading">
-          <p class="eyebrow">Profile</p>
-          <h2>个人经历</h2>
-        </div>
         <div class="about-grid">
+          <div class="about-intro about-panel">
+            <p class="eyebrow">@yihantang</p>
+            <h2>Hi～</h2>
+            <p class="intro-name">我是唐艺菡</p>
+            <p class="lead">
+              我是唐艺菡，现为中国传媒大学 25 级设计硕士，品牌方向。本科为视觉传达设计广告设计方向，
+              以预推免第一名继续深造。我的工作范围覆盖小程序 UI/UX、品牌标识、活动主视觉与传播物料。
+            </p>
+          </div>
           <aside class="profile-card" aria-label="唐艺菡个人身份卡片">
-            <div class="avatar-orbit" aria-hidden="true">
-              <span class="avatar-core">TYH</span>
-              <span class="orbit-dot dot-a"></span>
-              <span class="orbit-dot dot-b"></span>
-              <span class="orbit-dot dot-c"></span>
+            <div class="lanyard-badge" aria-hidden="true">
+              <span class="lanyard-anchor"></span>
+              <span class="lanyard-band band-left"></span>
+              <span class="lanyard-band band-right"></span>
+              <span class="lanyard-clip"></span>
+              <div class="badge-card">
+                <img src="assets/about-lanyard-photo.webp" alt="" />
+                <span>YIHAN TANG</span>
+              </div>
             </div>
             <div class="profile-card-copy">
-              <p class="profile-role">UI Visual Designer</p>
               <h3>唐艺菡</h3>
               <p>中国传媒大学 25 级设计硕士 · 品牌方向</p>
             </div>
@@ -80,40 +88,73 @@
               <span>Ae</span>
               <span>Id</span>
             </div>
-            <div class="profile-stats">
-              <div>
-                <strong>2025</strong>
-                <span>保研中传设计硕士</span>
-              </div>
-              <div>
-                <strong>8w+</strong>
-                <span>内容平台总获赞</span>
-              </div>
-            </div>
           </aside>
-          <div class="about-copy">
-            <p class="lead">
-              我是唐艺菡，现为中国传媒大学 25 级设计硕士，品牌方向。本科为视觉传达设计广告设计方向，
-              以预推免第一名继续深造。我的工作范围覆盖小程序 UI/UX、品牌标识、活动主视觉与传播物料。
-            </p>
-            <div class="info-columns">
-              <article>
-                <h3>实习经历</h3>
-                <p>
-                  蓝色光标海外项目组创意设计，AI 方向。独立负责 Nubia 系列 KSP 海报设计，
-                  参与 TCL 新品意大利发布海报、Nubia 全年传播主题、华为问界中东上市竞标视觉创意。
-                </p>
+          <div class="about-side">
+            <div class="about-tabs about-panel" role="tablist" aria-label="经历分类">
+              <button class="about-tab is-active" type="button" role="tab" aria-selected="true" data-tab="internship">实习经历</button>
+              <button class="about-tab" type="button" role="tab" aria-selected="false" data-tab="awards">获奖经历</button>
+              <button class="about-tab" type="button" role="tab" aria-selected="false" data-tab="campus">学校工作</button>
+            </div>
+            <div class="experience-panel about-panel">
+              <article class="experience-content is-active" data-panel="internship">
+                <div class="experience-head">
+                  <h3>实习经历</h3>
+                  <p class="experience-date">2026.2-2026.5 蓝色光标海外项目组 · 创意设计（AIGC）</p>
+                </div>
+                <div class="experience-item">
+                  <h4>Nubia 海报设计</h4>
+                  <p>负责 Nubia 四个系列的海报设计，从接到需求开始，负责竞品分析、创意构思、视觉参考、组织分工到设计落地，海报在海外社媒顺利发布。</p>
+                </div>
+                <div class="experience-item">
+                  <h4>TCL 新品海外上市海报</h4>
+                  <p>负责 TCL 新品在意大利发布海报，从产品分析、竞品调研、创意构思、视觉参考到设计落地，海报在海外社媒顺利发布。</p>
+                </div>
+                <div class="experience-item">
+                  <h4>创意策划</h4>
+                  <p>Nubia 新品全年宣传主题创意构思已被品牌方采纳；参与华为问界 M5、M9 中东上市竞标视觉设计创意。</p>
+                </div>
               </article>
-              <article>
+              <article class="experience-content" data-panel="awards">
                 <h3>获奖经历</h3>
-                <p>
-                  北京国际公益广告大会平面类一等奖，香港青年设计奖二等奖与三等奖，
-                  中国国际大学生创新大赛北京市一等奖，挑战杯首都大学生创业计划竞赛金奖、银奖。
-                </p>
+                <div class="award-grid">
+                  <div>
+                    <h4>设计竞赛</h4>
+                    <p>第四届北京国际公益广告大会创意征集大赛平面类一等奖</p>
+                    <p>第三届香港青年设计奖(YDA)二等奖、三等奖</p>
+                    <p>米兰设计周中国高校设计学科师生优秀作品展北京赛区三等奖</p>
+                    <p>中国大学生广告艺术节学院奖平面优秀类</p>
+                  </div>
+                  <div>
+                    <h4>其他竞赛</h4>
+                    <p>第16届全国大学生广告艺术大赛策划案全国优秀奖</p>
+                    <p>2024年“挑战杯”首都大学生创业计划竞赛专项赛道金奖</p>
+                    <p>中国国际大学生创新大赛（2024）北京市一等奖</p>
+                    <p>第九届中国大学生公共关系策划创业大赛全国银奖</p>
+                  </div>
+                </div>
               </article>
-              <article>
-                <h3>联系方式</h3>
-                <p>手机：135 2738 8266<br />邮箱：yihantang77@163.com</p>
+              <article class="experience-content" data-panel="campus">
+                <h3>学校工作</h3>
+                <div class="campus-grid">
+                  <div>
+                    <h4>校志愿者联合会宣传部</h4>
+                    <p>校团委 logo 再设计（已采纳使用）</p>
+                    <p>冬奥会志愿者周边设计及落地</p>
+                  </div>
+                  <div>
+                    <h4>校国际处设计部门</h4>
+                    <p>独立负责会议主视觉、物料设计及落地</p>
+                    <p>独立负责学校对外的传统节日宣传设计</p>
+                  </div>
+                  <div>
+                    <h4>硕士班团支书</h4>
+                    <p>广告与品牌学院实习工作</p>
+                  </div>
+                  <div>
+                    <h4>汉服社副社长</h4>
+                    <p>负责外联对接及社团演出舞台美术设计</p>
+                  </div>
+                </div>
               </article>
             </div>
           </div>
