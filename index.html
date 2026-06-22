@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>唐艺菡 | UI Visual Designer</title>
+    <meta
+      name="description"
+      content="唐艺菡个人作品集网站 - UI/UX、品牌视觉、活动视觉设计。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="ambient-bg" aria-hidden="true"></canvas>
+
+    <header class="site-header" aria-label="主导航">
+      <a class="brand" href="#hero" aria-label="返回首页">
+        <img src="images/hero- element- clock.png" alt="" aria-hidden="true" />
+        <span>YiHan Tang</span>
+      </a>
+      <nav class="nav-links" id="section-menu" aria-label="页面导航">
+        <a href="#about">经历</a>
+        <a href="#strengths">优势</a>
+        <a href="#projects">项目</a>
+        <a href="#contact">联系</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-cta" href="mailto:yihantang77@163.com">Contact Me</a>
+        <button
+          class="menu-button"
+          type="button"
+          aria-label="打开菜单"
+          aria-expanded="false"
+          aria-controls="section-menu"
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section" id="hero">
+        <div class="hero-content">
+          <p class="eyebrow">Excel at every single moment</p>
+          <h1>
+            <span>Yihan Tang</span>
+            <span>2026 Design Portfolio</span>
+          </h1>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <img src="assets/hero/hero-element-cropped.webp" alt="" />
+        </div>
+        <a class="scroll-cue" href="#about" aria-label="向下滚动">↓</a>
+      </section>
+
+      <section class="section about" id="about">
+        <div class="section-heading">
+          <p class="eyebrow">Profile</p>
+          <h2>个人经历</h2>
+        </div>
+        <div class="about-grid">
+          <aside class="profile-card" aria-label="唐艺菡个人身份卡片">
+            <div class="avatar-orbit" aria-hidden="true">
+              <span class="avatar-core">TYH</span>
+              <span class="orbit-dot dot-a"></span>
+              <span class="orbit-dot dot-b"></span>
+              <span class="orbit-dot dot-c"></span>
+            </div>
+            <div class="profile-card-copy">
+              <p class="profile-role">UI Visual Designer</p>
+              <h3>唐艺菡</h3>
+              <p>中国传媒大学 25 级设计硕士 · 品牌方向</p>
+            </div>
+            <div class="profile-tags" aria-label="能力标签">
+              <span>Figma</span>
+              <span>MasterGo</span>
+              <span>Ps</span>
+              <span>Ai</span>
+              <span>Ae</span>
+              <span>Id</span>
+            </div>
+            <div class="profile-stats">
+              <div>
+                <strong>2025</strong>
+                <span>保研中传设计硕士</span>
+              </div>
+              <div>
+                <strong>8w+</strong>
+                <span>内容平台总获赞</span>
+              </div>
+            </div>
+          </aside>
+          <div class="about-copy">
+            <p class="lead">
+              我是唐艺菡，现为中国传媒大学 25 级设计硕士，品牌方向。本科为视觉传达设计广告设计方向，
+              以预推免第一名继续深造。我的工作范围覆盖小程序 UI/UX、品牌标识、活动主视觉与传播物料。
+            </p>
+            <div class="info-columns">
+              <article>
+                <h3>实习经历</h3>
+                <p>
+                  蓝色光标海外项目组创意设计，AI 方向。独立负责 Nubia 系列 KSP 海报设计，
+                  参与 TCL 新品意大利发布海报、Nubia 全年传播主题、华为问界中东上市竞标视觉创意。
+                </p>
+              </article>
+              <article>
+                <h3>获奖经历</h3>
+                <p>
+                  北京国际公益广告大会平面类一等奖，香港青年设计奖二等奖与三等奖，
+                  中国国际大学生创新大赛北京市一等奖，挑战杯首都大学生创业计划竞赛金奖、银奖。
+                </p>
+              </article>
+              <article>
+                <h3>联系方式</h3>
+                <p>手机：135 2738 8266<br />邮箱：yihantang77@163.com</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section projects" id="projects">
+        <div class="section-heading wide">
+          <p class="eyebrow">Selected Works</p>
+          <h2>精选项目</h2>
+        </div>
+        <div class="project-list">
+          <article class="project-card">
+            <img src="assets/project-bangbangdai.jpg" alt="帮帮带小程序项目封面" />
+            <div class="project-copy">
+              <p class="tag">UX / UI Design</p>
+              <h3>帮帮带小程序</h3>
+              <p>
+                主导跨城跨境帮带小程序 UX/UI 设计，围绕发布需求、接单流程与信任感建立界面结构，
+                项目已上线。
+              </p>
+            </div>
+          </article>
+          <article class="project-card">
+            <img src="assets/project-885.jpg" alt="885文旅综合体品牌项目封面" />
+            <div class="project-copy">
+              <p class="tag">Logo / Brand Identity</p>
+              <h3>885 文旅综合体 Logo 再设计</h3>
+              <p>
+                面向山东淄博文旅综合体的品牌标识再设计，强化地方文化记忆、商业识别度与多场景延展。
+              </p>
+            </div>
+          </article>
+          <article class="project-card">
+            <img src="assets/project-aifoley.jpg" alt="AI FOLEY与云裳项目封面" />
+            <div class="project-copy">
+              <p class="tag">Innovation / Interface</p>
+              <h3>AI FOLEY / 云裳</h3>
+              <p>
+                参与大学生创新创业项目，负责界面与视觉系统设计，覆盖计算机视觉声音实践与云南传统民族虚拟服饰平台。
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section strengths" id="strengths">
+        <div class="section-heading">
+          <p class="eyebrow">Design Advantages</p>
+          <h2>个人优势</h2>
+        </div>
+        <div class="strength-grid">
+          <article class="strength-card">
+            <span>01</span>
+            <h3>结构化 UI 思维</h3>
+            <p>擅长把复杂需求拆解成清晰流程，兼顾信息层级、交互路径与视觉节奏。</p>
+          </article>
+          <article class="strength-card">
+            <span>02</span>
+            <h3>品牌视觉延展</h3>
+            <p>从标识、海报到物料落地，能围绕品牌调性建立统一且可传播的视觉语言。</p>
+          </article>
+          <article class="strength-card">
+            <span>03</span>
+            <h3>跨媒介创意表达</h3>
+            <p>摄影、视频创意、动漫与历史文化兴趣持续反哺创作，形成更丰富的视觉素材库。</p>
+          </article>
+          <article class="strength-card">
+            <span>04</span>
+            <h3>稳定协作与推进</h3>
+            <p>能作为主导者带队达成目标，也能作为成员精确补位，注重效率、落地和复盘。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div class="contact-inner">
+          <p class="eyebrow">Contact</p>
+          <h2>让严谨的界面，长出一点有趣的锋芒。</h2>
+          <p>
+            欢迎联系我讨论 UI 设计、品牌视觉、活动视觉或更多跨媒介创意项目。
+          </p>
+          <div class="contact-actions">
+            <a class="primary-btn" href="mailto:yihantang77@163.com">yihantang77@163.com</a>
+            <a class="ghost-btn" href="tel:13527388266">135 2738 8266</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
