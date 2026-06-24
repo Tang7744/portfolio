@@ -166,3 +166,40 @@ aboutTabs.forEach((tab) => {
     });
   });
 });
+
+const glowCards = document.querySelectorAll("#about .about-panel, #about .profile-card");
+
+const getEdgeProximity = (rect, x, y) => {
+  const cx = rect.width / 2;
+  const cy = rect.height / 2;
+  const dx = x - cx;
+  const dy = y - cy;
+  const kx = dx === 0 ? Infinity : cx / Math.abs(dx);
+  const ky = dy === 0 ? Infinity : cy / Math.abs(dy);
+  return Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+};
+
+const getCursorAngle = (rect, x, y) => {
+  const dx = x - rect.width / 2;
+  const dy = y - rect.height / 2;
+  if (dx === 0 && dy === 0) return 45;
+  const degrees = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
+  return degrees < 0 ? degrees + 360 : degrees;
+};
+
+glowCards.forEach((card) => {
+  card.addEventListener("pointermove", (event) => {
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const edge = getEdgeProximity(rect, x, y);
+    const angle = getCursorAngle(rect, x, y);
+
+    card.style.setProperty("--edge-proximity", `${(edge * 100).toFixed(3)}`);
+    card.style.setProperty("--cursor-angle", `${angle.toFixed(3)}deg`);
+  });
+
+  card.addEventListener("pointerleave", () => {
+    card.style.setProperty("--edge-proximity", "0");
+  });
+});
