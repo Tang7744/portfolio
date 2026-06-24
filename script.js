@@ -94,6 +94,42 @@ if (header && menuButton && sectionMenu) {
   });
 }
 
+const navLinks = document.querySelectorAll(".nav-links a[href^='#']");
+const navSections = Array.from(navLinks)
+  .map((link) => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+
+const setActiveNav = (id) => {
+  navLinks.forEach((link) => {
+    link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
+  });
+};
+
+if (navLinks.length && navSections.length) {
+  const getCurrentSection = () => {
+    const marker = window.scrollY + window.innerHeight * 0.34;
+    return navSections.reduce((current, section) => {
+      return section.offsetTop <= marker ? section : current;
+    }, navSections[0]);
+  };
+
+  const updateActiveNav = () => {
+    setActiveNav(getCurrentSection().id);
+  };
+
+  window.addEventListener("scroll", updateActiveNav, { passive: true });
+  window.addEventListener("resize", updateActiveNav);
+  navLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const target = link.getAttribute("href").slice(1);
+      setActiveNav(target);
+      document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+  updateActiveNav();
+}
+
 const tiltedCard = document.querySelector(".profile-card");
 
 if (tiltedCard) {
@@ -164,5 +200,42 @@ aboutTabs.forEach((tab) => {
     aboutPanels.forEach((panel) => {
       panel.classList.toggle("is-active", panel.dataset.panel === target);
     });
+  });
+});
+
+const glowCards = document.querySelectorAll("#about .about-panel, #about .profile-card");
+
+const getEdgeProximity = (rect, x, y) => {
+  const cx = rect.width / 2;
+  const cy = rect.height / 2;
+  const dx = x - cx;
+  const dy = y - cy;
+  const kx = dx === 0 ? Infinity : cx / Math.abs(dx);
+  const ky = dy === 0 ? Infinity : cy / Math.abs(dy);
+  return Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+};
+
+const getCursorAngle = (rect, x, y) => {
+  const dx = x - rect.width / 2;
+  const dy = y - rect.height / 2;
+  if (dx === 0 && dy === 0) return 45;
+  const degrees = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
+  return degrees < 0 ? degrees + 360 : degrees;
+};
+
+glowCards.forEach((card) => {
+  card.addEventListener("pointermove", (event) => {
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const edge = getEdgeProximity(rect, x, y);
+    const angle = getCursorAngle(rect, x, y);
+
+    card.style.setProperty("--edge-proximity", `${(edge * 100).toFixed(3)}`);
+    card.style.setProperty("--cursor-angle", `${angle.toFixed(3)}deg`);
+  });
+
+  card.addEventListener("pointerleave", () => {
+    card.style.setProperty("--edge-proximity", "0");
   });
 });
