@@ -76,13 +76,29 @@ if (canvas && ctx) {
 
 const openingAnimation = document.querySelector(".opening-animation");
 const openingCount = document.querySelector(".opening-count");
+const openingStorageKey = "yihan-portfolio-opening-played";
 
-const finishOpening = () => {
+const hasSeenOpening = (() => {
+  try {
+    return window.sessionStorage.getItem(openingStorageKey) === "true";
+  } catch {
+    return false;
+  }
+})();
+
+const finishOpening = (remember = true) => {
   document.body.classList.remove("is-opening");
   document.documentElement.style.setProperty("--opening-progress", "100");
+  if (remember) {
+    try {
+      window.sessionStorage.setItem(openingStorageKey, "true");
+    } catch {
+      // Ignore storage failures in private or restricted browsing modes.
+    }
+  }
 };
 
-if (openingAnimation) {
+if (openingAnimation && !hasSeenOpening) {
   const openingStart = performance.now();
   const openingDuration = 2850;
 
@@ -104,7 +120,8 @@ if (openingAnimation) {
   });
   window.setTimeout(finishOpening, 3700);
 } else {
-  finishOpening();
+  document.body.classList.add("opening-skipped");
+  finishOpening(false);
 }
 
 const header = document.querySelector(".site-header");
@@ -386,6 +403,95 @@ if (caseShell && caseSlides.length) {
   );
   let isCaseAnimating = false;
   const wheelThreshold = 24;
+  let boundaryWheelDirection = 0;
+  let boundaryWheelCount = 0;
+  let boundaryWheelTime = 0;
+  const boundaryWheelWindow = 1400;
+  let autoScrollFrameId = null;
+  let autoScrollPauseUntil = 0;
+  const pendingExplainUpdates = new WeakSet();
+
+  const scheduleExplainCardUpdate = (slide) => {
+    if (!slide || pendingExplainUpdates.has(slide)) return;
+    pendingExplainUpdates.add(slide);
+    window.requestAnimationFrame(() => {
+      pendingExplainUpdates.delete(slide);
+      updateVisibleExplainCard(slide);
+    });
+  };
+
+  const stopAutoScrollFrame = () => {
+    if (autoScrollFrameId) {
+      window.cancelAnimationFrame(autoScrollFrameId);
+      autoScrollFrameId = null;
+    }
+  };
+
+  const startAutoScrollForActiveSlide = () => {
+    stopAutoScrollFrame();
+    const activeSlide = caseSlides[currentCaseSlide];
+    const autoFrame = activeSlide?.querySelector(".auto-scroll-frame");
+
+    if (!autoFrame || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    autoFrame.scrollTo({ top: 0 });
+    autoScrollPauseUntil = performance.now() + 900;
+
+    const tick = (now) => {
+      const maxScroll = autoFrame.scrollHeight - autoFrame.clientHeight;
+      if (maxScroll <= 0) {
+        autoScrollFrameId = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      if (now > autoScrollPauseUntil) {
+        const nextTop = autoFrame.scrollTop + 0.42;
+        if (nextTop >= maxScroll - 1) {
+          autoFrame.scrollTop = 0;
+          autoScrollPauseUntil = now + 1100;
+        } else {
+          autoFrame.scrollTop = nextTop;
+        }
+      }
+
+      autoScrollFrameId = window.requestAnimationFrame(tick);
+    };
+
+    autoScrollFrameId = window.requestAnimationFrame(tick);
+  };
+  const updateVisibleExplainCard = (slide) => {
+    const scrollFrame = slide?.querySelector(".case-scroll-frame");
+    const hotzones = Array.from(slide?.querySelectorAll(".xhs-hotzones span") || []);
+    const cards = Array.from(slide?.querySelectorAll(".xhs-explain-placeholders img") || []);
+    const cardWrap = slide?.querySelector(".xhs-explain-placeholders");
+
+    if (!scrollFrame || !hotzones.length || !cards.length || !cardWrap) return;
+
+    const frameRect = scrollFrame.getBoundingClientRect();
+    const frameCenter = frameRect.top + frameRect.height / 2;
+    let activeIndex = -1;
+    let activeDistance = Infinity;
+
+    hotzones.forEach((zone, index) => {
+      const rect = zone.getBoundingClientRect();
+      const visible = rect.bottom > frameRect.top && rect.top < frameRect.bottom;
+      if (!visible) return;
+
+      const zoneCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(zoneCenter - frameCenter);
+      if (distance < activeDistance) {
+        activeDistance = distance;
+        activeIndex = index;
+      }
+    });
+
+    if (activeIndex < 0) activeIndex = 0;
+
+    cardWrap.classList.add("is-visible");
+    cards.forEach((card, index) => {
+      card.classList.toggle("is-active", index === activeIndex);
+    });
+  };
 
   const setCaseSlide = (nextIndex) => {
     const targetIndex = Math.max(0, Math.min(caseSlides.length - 1, nextIndex));
@@ -398,6 +504,12 @@ if (caseShell && caseSlides.length) {
     caseDots.forEach((dot, index) => {
       dot.classList.toggle("is-active", index === targetIndex);
     });
+    caseSlides[targetIndex].querySelector(".case-scroll-frame")?.scrollTo({ top: 0 });
+    caseSlides[targetIndex].querySelector(".case-horizontal-frame")?.scrollTo({ left: 0 });
+    boundaryWheelDirection = 0;
+    boundaryWheelCount = 0;
+    startAutoScrollForActiveSlide();
+    updateVisibleExplainCard(caseSlides[targetIndex]);
   };
 
   const lockCaseWheel = () => {
@@ -412,6 +524,60 @@ if (caseShell && caseSlides.length) {
     (event) => {
       if (window.matchMedia("(max-width: 640px)").matches) return;
       if (Math.abs(event.deltaY) < wheelThreshold) return;
+
+      const activeSlide = caseSlides[currentCaseSlide];
+      const scrollFrame = activeSlide?.querySelector(".case-scroll-frame");
+      if (scrollFrame) {
+        const maxScroll = scrollFrame.scrollHeight - scrollFrame.clientHeight;
+        const atTop = scrollFrame.scrollTop <= 0;
+        const atBottom = scrollFrame.scrollTop >= maxScroll - 2;
+        const direction = event.deltaY > 0 ? 1 : -1;
+        const shouldScrollInside =
+          maxScroll > 0 && ((direction > 0 && !atBottom) || (direction < 0 && !atTop));
+
+        if (shouldScrollInside) {
+          event.preventDefault();
+          scrollFrame.scrollTop += event.deltaY * 1.05;
+          boundaryWheelDirection = 0;
+          boundaryWheelCount = 0;
+          scheduleExplainCardUpdate(activeSlide);
+          return;
+        }
+
+        if (maxScroll > 0 && ((direction > 0 && atBottom) || (direction < 0 && atTop))) {
+          const now = Date.now();
+          if (direction === boundaryWheelDirection && now - boundaryWheelTime < boundaryWheelWindow) {
+            boundaryWheelCount += 1;
+          } else {
+            boundaryWheelDirection = direction;
+            boundaryWheelCount = 1;
+          }
+          boundaryWheelTime = now;
+
+          if (boundaryWheelCount < 2) {
+            event.preventDefault();
+            return;
+          }
+
+          boundaryWheelDirection = 0;
+          boundaryWheelCount = 0;
+        }
+      }
+
+      const horizontalFrame = activeSlide?.querySelector(".case-horizontal-frame");
+      if (horizontalFrame) {
+        const maxScroll = horizontalFrame.scrollWidth - horizontalFrame.clientWidth;
+        const atStart = horizontalFrame.scrollLeft <= 0;
+        const atEnd = horizontalFrame.scrollLeft >= maxScroll - 2;
+        const shouldScrollInside =
+          maxScroll > 0 && ((event.deltaY > 0 && !atEnd) || (event.deltaY < 0 && !atStart));
+
+        if (shouldScrollInside) {
+          event.preventDefault();
+          horizontalFrame.scrollLeft += event.deltaY * 1.1;
+          return;
+        }
+      }
 
       event.preventDefault();
       if (isCaseAnimating) return;
@@ -446,4 +612,173 @@ if (caseShell && caseSlides.length) {
       lockCaseWheel();
     });
   });
+
+  caseShell.addEventListener("pointerenter", () => {
+    autoScrollPauseUntil = performance.now() + 1200;
+  });
+
+  caseShell.addEventListener("wheel", () => {
+    autoScrollPauseUntil = performance.now() + 1600;
+  });
+
+  caseSlides.forEach((slide) => {
+    const scrollFrame = slide.querySelector(".case-scroll-frame");
+    if (!scrollFrame) return;
+
+    scrollFrame.addEventListener(
+      "scroll",
+      () => {
+        scheduleExplainCardUpdate(slide);
+      },
+      { passive: true },
+    );
+  });
+
+  startAutoScrollForActiveSlide();
+  updateVisibleExplainCard(caseSlides[currentCaseSlide]);
+
+  const detailHeader = document.querySelector(".detail-header");
+  if (detailHeader) {
+    let headerHideTimer;
+    let headerFrame = null;
+
+    const showDetailHeader = () => {
+      headerFrame = null;
+      detailHeader.classList.remove("is-hidden");
+      window.clearTimeout(headerHideTimer);
+      headerHideTimer = window.setTimeout(() => {
+        detailHeader.classList.add("is-hidden");
+      }, 3000);
+    };
+
+    const scheduleDetailHeader = () => {
+      if (headerFrame) return;
+      headerFrame = window.requestAnimationFrame(showDetailHeader);
+    };
+
+    ["pointermove", "keydown", "wheel", "touchstart"].forEach((eventName) => {
+      window.addEventListener(eventName, scheduleDetailHeader, { passive: true });
+    });
+
+    showDetailHeader();
+  }
+}
+
+const tclCarousel = document.querySelector(".tcl-carousel");
+
+if (tclCarousel) {
+  const carouselItems = Array.from(tclCarousel.querySelectorAll("[data-carousel-item]"));
+  let carouselProgress = 0;
+  let carouselVelocity = 0;
+  let carouselDragging = false;
+  let carouselStartX = 0;
+  let carouselStartProgress = 0;
+  let carouselLastX = 0;
+  let carouselLastTime = 0;
+  let carouselFrame = null;
+  let carouselAutoPausedUntil = 0;
+  let carouselLastFrameTime = performance.now();
+
+  const wrapCarouselOffset = (value) => {
+    const count = carouselItems.length || 1;
+    return ((value + count / 2) % count + count) % count - count / 2;
+  };
+
+  const renderTclCarousel = () => {
+    const count = carouselItems.length || 1;
+    const spacing = Math.min(window.innerWidth * 0.32, 430);
+    const arc = Math.min(window.innerHeight * 0.11, 92);
+
+    carouselItems.forEach((item, index) => {
+      const offset = wrapCarouselOffset(index - carouselProgress);
+      const distance = Math.abs(offset);
+      const x = offset * spacing;
+      const y = Math.pow(distance, 1.65) * arc - 34;
+      const rotate = offset * 4.2;
+      const scale = Math.max(0.72, 1 - distance * 0.1);
+      const opacity = distance > count / 2 - 0.18 ? 0 : Math.max(0.42, 1 - distance * 0.2);
+      const z = Math.round(100 - distance * 10);
+
+      item.style.setProperty("--carousel-x", `${x.toFixed(2)}px`);
+      item.style.setProperty("--carousel-y", `${y.toFixed(2)}px`);
+      item.style.setProperty("--carousel-rotate", `${rotate.toFixed(2)}deg`);
+      item.style.setProperty("--carousel-scale", scale.toFixed(3));
+      item.style.setProperty("--carousel-opacity", opacity.toFixed(3));
+      item.style.setProperty("--carousel-z", z);
+    });
+  };
+
+  const animateTclCarousel = () => {
+    const now = performance.now();
+    const delta = Math.min(48, now - carouselLastFrameTime);
+    carouselLastFrameTime = now;
+    carouselFrame = null;
+    let shouldContinue = false;
+
+    if (!carouselDragging && Math.abs(carouselVelocity) > 0.002) {
+      carouselProgress += carouselVelocity;
+      carouselVelocity *= 0.92;
+      shouldContinue = true;
+    } else if (!carouselDragging && now > carouselAutoPausedUntil) {
+      carouselProgress += delta * 0.000045;
+      shouldContinue = true;
+    }
+
+    if (shouldContinue) {
+      renderTclCarousel();
+      carouselFrame = window.requestAnimationFrame(animateTclCarousel);
+    }
+  };
+
+  const startCarouselInertia = () => {
+    if (carouselFrame) return;
+    carouselLastFrameTime = performance.now();
+    carouselFrame = window.requestAnimationFrame(animateTclCarousel);
+  };
+
+  tclCarousel.addEventListener("pointerdown", (event) => {
+    carouselDragging = true;
+    carouselStartX = event.clientX;
+    carouselLastX = event.clientX;
+    carouselLastTime = performance.now();
+    carouselStartProgress = carouselProgress;
+    carouselVelocity = 0;
+    carouselAutoPausedUntil = performance.now() + 1200;
+    tclCarousel.classList.add("is-dragging");
+    tclCarousel.setPointerCapture(event.pointerId);
+  });
+
+  tclCarousel.addEventListener("pointermove", (event) => {
+    if (!carouselDragging) return;
+
+    const now = performance.now();
+    const width = Math.max(320, tclCarousel.clientWidth);
+    const dragDelta = event.clientX - carouselStartX;
+    const moveDelta = event.clientX - carouselLastX;
+    const timeDelta = Math.max(16, now - carouselLastTime);
+
+    carouselProgress = carouselStartProgress - (dragDelta / width) * carouselItems.length * 1.15;
+    carouselVelocity = -(moveDelta / timeDelta) * 0.82;
+    carouselAutoPausedUntil = now + 1400;
+    carouselLastX = event.clientX;
+    carouselLastTime = now;
+    renderTclCarousel();
+  });
+
+  const stopCarouselDrag = (event) => {
+    if (!carouselDragging) return;
+    carouselDragging = false;
+    tclCarousel.classList.remove("is-dragging");
+    if (tclCarousel.hasPointerCapture(event.pointerId)) {
+      tclCarousel.releasePointerCapture(event.pointerId);
+    }
+    carouselAutoPausedUntil = performance.now() + 1200;
+    startCarouselInertia();
+  };
+
+  tclCarousel.addEventListener("pointerup", stopCarouselDrag);
+  tclCarousel.addEventListener("pointercancel", stopCarouselDrag);
+  window.addEventListener("resize", renderTclCarousel);
+  renderTclCarousel();
+  startCarouselInertia();
 }
