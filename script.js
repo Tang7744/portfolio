@@ -78,6 +78,35 @@ const openingAnimation = document.querySelector(".opening-animation");
 const openingCount = document.querySelector(".opening-count");
 const openingStorageKey = "yihan-portfolio-opening-played";
 
+const markOpeningSeen = () => {
+  try {
+    window.sessionStorage.setItem(openingStorageKey, "true");
+  } catch {
+    // Ignore storage failures in private or restricted browsing modes.
+  }
+};
+
+const getPathDirectory = (pathname) => pathname.slice(0, pathname.lastIndexOf("/") + 1);
+
+const cameFromProjectPage = (() => {
+  if (!document.referrer) return false;
+  try {
+    const currentUrl = new URL(window.location.href);
+    const referrerUrl = new URL(document.referrer);
+    const sameFolder = getPathDirectory(currentUrl.pathname) === getPathDirectory(referrerUrl.pathname);
+    const differentPage = currentUrl.pathname !== referrerUrl.pathname;
+
+    return currentUrl.protocol === referrerUrl.protocol && sameFolder && differentPage;
+  } catch {
+    return false;
+  }
+})();
+
+const isHistoryReturn = (() => {
+  const [navigationEntry] = performance.getEntriesByType?.("navigation") || [];
+  return navigationEntry?.type === "back_forward";
+})();
+
 const hasSeenOpening = (() => {
   try {
     return window.sessionStorage.getItem(openingStorageKey) === "true";
@@ -86,19 +115,21 @@ const hasSeenOpening = (() => {
   }
 })();
 
+const shouldSkipOpening =
+  hasSeenOpening ||
+  isHistoryReturn ||
+  cameFromProjectPage ||
+  (window.location.hash && window.location.hash !== "#hero");
+
 const finishOpening = (remember = true) => {
   document.body.classList.remove("is-opening");
   document.documentElement.style.setProperty("--opening-progress", "100");
-  if (remember) {
-    try {
-      window.sessionStorage.setItem(openingStorageKey, "true");
-    } catch {
-      // Ignore storage failures in private or restricted browsing modes.
-    }
-  }
+  if (remember) markOpeningSeen();
 };
 
-if (openingAnimation && !hasSeenOpening) {
+if (!openingAnimation) {
+  markOpeningSeen();
+} else if (!shouldSkipOpening) {
   const openingStart = performance.now();
   const openingDuration = 2850;
 

@@ -4227,11 +4227,13 @@ h2 {
 }
 
 .xhs-explain-placeholders {
-  position: sticky;
+  position: absolute;
+  z-index: 5;
   top: 50%;
+  left: clamp(30px, 4.6vw, 82px);
   grid-column: 1;
   display: grid;
-  width: min(460px, 100%);
+  width: min(460px, calc(42vw - 64px));
   aspect-ratio: 1154 / 620;
   justify-self: center;
   align-self: center;
@@ -4613,9 +4615,13 @@ h2 {
   }
 
   .xhs-explain-placeholders {
+    position: relative;
+    top: auto;
+    left: auto;
     grid-column: auto;
     order: 1;
     width: min(100%, 360px);
+    transform: none;
   }
 
   .xhs-explain-placeholders img {
@@ -4788,9 +4794,13 @@ h2 {
   }
 
   .xhs-explain-placeholders {
+    position: absolute;
+    top: 50%;
+    left: 18px;
     grid-column: 1;
     order: initial;
-    width: min(100%, 270px);
+    width: min(38vw, 270px);
+    transform: translateY(-50%);
   }
 
   .xhs-explain-placeholders img {
