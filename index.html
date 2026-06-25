@@ -10,8 +10,20 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="is-opening">
     <canvas id="ambient-bg" aria-hidden="true"></canvas>
+    <div class="opening-animation" aria-hidden="true">
+      <div class="opening-grid"></div>
+      <div class="opening-count">00%</div>
+      <div class="opening-copy">
+        <p>YIHAN TANG</p>
+        <strong>PORTFOLIO</strong>
+        <span>UI VISUAL DESIGNER / BRAND VISUAL</span>
+      </div>
+      <div class="opening-progress">
+        <span></span>
+      </div>
+    </div>
 
     <header class="site-header" aria-label="主导航">
       <a class="brand" href="#hero" aria-label="返回首页">
@@ -154,7 +166,7 @@
           <h2>精选项目</h2>
         </div>
         <div class="project-list">
-          <article class="project-card">
+          <a class="project-card" href="bangbangdai.html" aria-label="查看帮帮带小程序项目详情">
             <div class="project-preview" style="--preview-image: url('images/strength-card01.png')" aria-hidden="true"></div>
             <span class="project-number">1</span>
             <div class="project-copy">
@@ -165,8 +177,8 @@
               </p>
             </div>
             <span class="project-arrow" aria-hidden="true">→</span>
-          </article>
-          <article class="project-card">
+          </a>
+          <a class="project-card" href="xiaohongshu.html" aria-label="查看品牌联名活动H5设计项目详情">
             <div class="project-preview" style="--preview-image: url('images/strength-card02.png')" aria-hidden="true"></div>
             <span class="project-number">2</span>
             <div class="project-copy">
@@ -177,7 +189,7 @@
               </p>
             </div>
             <span class="project-arrow" aria-hidden="true">→</span>
-          </article>
+          </a>
           <article class="project-card">
             <div class="project-preview" style="--preview-image: url('images/strength-card03.png')" aria-hidden="true"></div>
             <span class="project-number">3</span>
@@ -292,7 +304,6 @@
           <div class="contact-figma-icon" aria-hidden="true">
             <span></span><span></span><span></span><span></span><span></span>
           </div>
-          <p class="contact-copy">欢迎联系我讨论 UI 设计、品牌视觉、活动视觉或更多跨媒介创意项目。</p>
           <div class="contact-actions figma-actions">
             <a class="figma-contact-btn" href="mailto:yihantang77@163.com">
               CONTACT ME

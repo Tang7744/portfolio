@@ -1,10 +1,11 @@
 const canvas = document.querySelector("#ambient-bg");
-const ctx = canvas.getContext("2d");
+const ctx = canvas?.getContext("2d");
 let width = 0;
 let height = 0;
 let particles = [];
 
 function resize() {
+  if (!canvas || !ctx) return;
   const ratio = window.devicePixelRatio || 1;
   width = window.innerWidth;
   height = window.innerHeight;
@@ -24,6 +25,7 @@ function resize() {
 }
 
 function draw() {
+  if (!canvas || !ctx) return;
   ctx.clearRect(0, 0, width, height);
 
   const gradient = ctx.createLinearGradient(0, 0, width, height);
@@ -66,9 +68,44 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-window.addEventListener("resize", resize);
-resize();
-draw();
+if (canvas && ctx) {
+  window.addEventListener("resize", resize);
+  resize();
+  draw();
+}
+
+const openingAnimation = document.querySelector(".opening-animation");
+const openingCount = document.querySelector(".opening-count");
+
+const finishOpening = () => {
+  document.body.classList.remove("is-opening");
+  document.documentElement.style.setProperty("--opening-progress", "100");
+};
+
+if (openingAnimation) {
+  const openingStart = performance.now();
+  const openingDuration = 2850;
+
+  const updateOpeningProgress = (now) => {
+    const elapsed = Math.min(now - openingStart, openingDuration);
+    const progress = Math.round((elapsed / openingDuration) * 100);
+
+    document.documentElement.style.setProperty("--opening-progress", String(progress));
+    if (openingCount) openingCount.textContent = `${String(progress).padStart(2, "0")}%`;
+
+    if (elapsed < openingDuration) {
+      window.requestAnimationFrame(updateOpeningProgress);
+    }
+  };
+
+  window.requestAnimationFrame(updateOpeningProgress);
+  openingAnimation.addEventListener("animationend", (event) => {
+    if (event.animationName === "opening-exit") finishOpening();
+  });
+  window.setTimeout(finishOpening, 3700);
+} else {
+  finishOpening();
+}
 
 const header = document.querySelector(".site-header");
 const menuButton = document.querySelector(".menu-button");
@@ -143,6 +180,71 @@ if (navLinks.length && navSections.length) {
   });
   updateActiveNav();
 }
+
+const motionSections = document.querySelectorAll(".section");
+const motionGroups = [
+  ".about .about-panel",
+  ".project-card",
+  ".strength-grid .collage-stack",
+];
+
+motionGroups.forEach((selector) => {
+  document.querySelectorAll(selector).forEach((element, index) => {
+    element.classList.add("motion-item");
+    element.style.setProperty("--motion-index", index);
+  });
+});
+
+if ("IntersectionObserver" in window) {
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        } else {
+          entry.target.classList.remove("is-visible");
+        }
+      });
+    },
+    {
+      threshold: 0.16,
+      rootMargin: "0px 0px -12% 0px",
+    },
+  );
+
+  motionSections.forEach((section) => sectionObserver.observe(section));
+} else {
+  motionSections.forEach((section) => section.classList.add("is-visible"));
+}
+
+const parallaxItems = document.querySelectorAll(
+  ".hero-visual img, .badge-card img, .project-preview, .collage-paper",
+);
+let parallaxFrame = null;
+
+const updateParallax = () => {
+  parallaxFrame = null;
+  const viewportHeight = window.innerHeight || 1;
+
+  parallaxItems.forEach((item) => {
+    const rect = item.getBoundingClientRect();
+    if (rect.bottom < -120 || rect.top > viewportHeight + 120) return;
+
+    const center = rect.top + rect.height / 2;
+    const progress = (center - viewportHeight / 2) / viewportHeight;
+    const clamped = Math.max(-1, Math.min(1, progress));
+    item.style.setProperty("--parallax-y", `${(-22 * clamped).toFixed(1)}px`);
+  });
+};
+
+const requestParallax = () => {
+  if (parallaxFrame) return;
+  parallaxFrame = window.requestAnimationFrame(updateParallax);
+};
+
+window.addEventListener("scroll", requestParallax, { passive: true });
+window.addEventListener("resize", requestParallax);
+requestParallax();
 
 const tiltedCard = document.querySelector(".profile-card");
 
@@ -272,3 +374,76 @@ glowCards.forEach((card) => {
     card.style.setProperty("--edge-proximity", "0");
   });
 });
+
+const caseShell = document.querySelector("#caseShell");
+const caseSlides = Array.from(document.querySelectorAll(".case-slide"));
+const caseDots = Array.from(document.querySelectorAll(".case-progress button"));
+
+if (caseShell && caseSlides.length) {
+  let currentCaseSlide = Math.max(
+    0,
+    caseSlides.findIndex((slide) => slide.classList.contains("is-active")),
+  );
+  let isCaseAnimating = false;
+  const wheelThreshold = 24;
+
+  const setCaseSlide = (nextIndex) => {
+    const targetIndex = Math.max(0, Math.min(caseSlides.length - 1, nextIndex));
+    if (targetIndex === currentCaseSlide) return;
+
+    currentCaseSlide = targetIndex;
+    caseSlides.forEach((slide, index) => {
+      slide.classList.toggle("is-active", index === targetIndex);
+    });
+    caseDots.forEach((dot, index) => {
+      dot.classList.toggle("is-active", index === targetIndex);
+    });
+  };
+
+  const lockCaseWheel = () => {
+    isCaseAnimating = true;
+    window.setTimeout(() => {
+      isCaseAnimating = false;
+    }, 820);
+  };
+
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      if (window.matchMedia("(max-width: 640px)").matches) return;
+      if (Math.abs(event.deltaY) < wheelThreshold) return;
+
+      event.preventDefault();
+      if (isCaseAnimating) return;
+
+      const direction = event.deltaY > 0 ? 1 : -1;
+      const nextIndex = currentCaseSlide + direction;
+      if (nextIndex < 0 || nextIndex >= caseSlides.length) return;
+
+      setCaseSlide(nextIndex);
+      lockCaseWheel();
+    },
+    { passive: false },
+  );
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
+      event.preventDefault();
+      setCaseSlide(currentCaseSlide + 1);
+      lockCaseWheel();
+    }
+
+    if (event.key === "ArrowUp" || event.key === "PageUp") {
+      event.preventDefault();
+      setCaseSlide(currentCaseSlide - 1);
+      lockCaseWheel();
+    }
+  });
+
+  caseDots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      setCaseSlide(Number(dot.dataset.targetSlide));
+      lockCaseWheel();
+    });
+  });
+}
