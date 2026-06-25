@@ -106,25 +106,39 @@ const setActiveNav = (id) => {
 };
 
 if (navLinks.length && navSections.length) {
+  let navLockTimer;
+  let isNavLocked = false;
+
   const getCurrentSection = () => {
-    const marker = window.scrollY + window.innerHeight * 0.34;
+    const marker = window.scrollY + window.innerHeight * 0.42;
     return navSections.reduce((current, section) => {
       return section.offsetTop <= marker ? section : current;
     }, navSections[0]);
   };
 
   const updateActiveNav = () => {
+    if (isNavLocked) return;
     setActiveNav(getCurrentSection().id);
   };
 
-  window.addEventListener("scroll", updateActiveNav, { passive: true });
+  const scheduleActiveNav = () => {
+    window.requestAnimationFrame(updateActiveNav);
+  };
+
+  window.addEventListener("scroll", scheduleActiveNav, { passive: true });
   window.addEventListener("resize", updateActiveNav);
   navLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       const target = link.getAttribute("href").slice(1);
+      isNavLocked = true;
+      window.clearTimeout(navLockTimer);
       setActiveNav(target);
       document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      navLockTimer = window.setTimeout(() => {
+        isNavLocked = false;
+        updateActiveNav();
+      }, 720);
     });
   });
   updateActiveNav();
@@ -202,6 +216,25 @@ aboutTabs.forEach((tab) => {
     });
   });
 });
+
+const figmaTime = document.querySelector(".figma-time");
+
+if (figmaTime) {
+  const beijingTimeFormatter = new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Shanghai",
+  });
+
+  const updateBeijingTime = () => {
+    figmaTime.textContent = beijingTimeFormatter.format(new Date());
+  };
+
+  updateBeijingTime();
+  window.setInterval(updateBeijingTime, 1000);
+}
 
 const glowCards = document.querySelectorAll("#about .about-panel, #about .profile-card");
 
