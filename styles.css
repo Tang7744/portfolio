@@ -12,6 +12,7 @@
   --max: 1700px;
   --pixel-font: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
   --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --hero-ease: cubic-bezier(0.19, 1, 0.22, 1);
   --motion-slow: 1180ms;
   --motion-medium: 820ms;
 }
@@ -375,7 +376,7 @@ h1 {
   overflow: visible;
   font-size: clamp(72px, 7.55vw, 142px);
   font-weight: 950;
-  line-height: 0.83;
+  line-height: 0.9;
   letter-spacing: 0;
   text-wrap: balance;
   isolation: isolate;
@@ -487,9 +488,9 @@ h1:hover::after {
 .hero-visual {
   position: absolute;
   z-index: 5;
-  top: clamp(270px, 36vh, 392px);
+  top: clamp(232px, 31vh, 338px);
   left: 50%;
-  width: min(820px, 70vw);
+  width: min(1080px, 90vw);
   pointer-events: none;
   transform: translateX(-50%);
 }
@@ -2338,8 +2339,8 @@ h2 {
   }
 
   .hero-visual {
-    top: clamp(250px, 37vh, 336px);
-    width: min(760px, 96vw);
+    top: clamp(216px, 33vh, 292px);
+    width: min(860px, 106vw);
     margin-top: 0;
   }
 
@@ -2470,8 +2471,8 @@ h2 {
   }
 
   .hero-visual {
-    top: clamp(246px, 39vh, 320px);
-    width: 124vw;
+    top: clamp(208px, 35vh, 280px);
+    width: 136vw;
     max-width: none;
     margin-left: 0;
   }
@@ -2651,28 +2652,32 @@ h2 {
 
 .hero h1 span {
   display: block;
-  clip-path: inset(0 0 100% 0);
-  transform: translateY(84px) scaleX(0.66);
+  clip-path: inset(0 0 18% 0);
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(58px) scaleX(0.78);
   transform-origin: center;
-  animation: hero-title-in 1680ms 2700ms var(--motion-ease) forwards;
+  animation: hero-title-in 2100ms 2580ms var(--hero-ease) forwards;
+  will-change: transform, opacity, filter, clip-path;
 }
 
 .hero h1 span:nth-child(2) {
-  animation-delay: 2860ms;
+  animation-delay: 2760ms;
 }
 
 .hero .eyebrow {
   opacity: 0;
   transform: translateY(22px);
-  animation: hero-kicker-in 900ms 3120ms var(--motion-ease) forwards;
+  animation: hero-kicker-in 1100ms 3180ms var(--hero-ease) forwards;
 }
 
 .hero-visual img {
   --parallax-y: 0px;
-  clip-path: inset(0 0 22% 0 round 16px);
-  transform: translate3d(0, var(--parallax-y), 0) scale(1.04);
-  animation: hero-image-reveal 1600ms 3180ms var(--motion-ease) forwards;
-  will-change: transform, clip-path;
+  clip-path: none;
+  opacity: 0;
+  transform: translate3d(0, calc(var(--parallax-y) + 42px), 0) scale(1);
+  animation: hero-image-reveal 1900ms 3180ms var(--hero-ease) forwards;
+  will-change: transform, opacity;
 }
 
 .opening-skipped .hero h1 span {
@@ -2698,16 +2703,16 @@ h2 {
 
 @keyframes hero-title-in {
   0% {
-    clip-path: inset(0 0 100% 0);
-    filter: blur(10px);
+    clip-path: inset(0 0 18% 0);
+    filter: blur(8px);
     opacity: 0;
-    transform: translateY(84px) scaleX(0.66);
+    transform: translateY(58px) scaleX(0.78);
   }
-  58% {
-    clip-path: inset(0);
-    filter: blur(0);
-    opacity: 1;
-    transform: translateY(-10px) scaleX(1.08);
+  66% {
+    clip-path: inset(0 0 3% 0);
+    filter: blur(1px);
+    opacity: 0.96;
+    transform: translateY(-4px) scaleX(1.035);
   }
   100% {
     clip-path: inset(0);
@@ -2726,8 +2731,9 @@ h2 {
 
 @keyframes hero-image-reveal {
   to {
-    clip-path: inset(0 round 16px);
-    transform: translate3d(0, var(--parallax-y), 0) scale(1.01);
+    clip-path: none;
+    opacity: 1;
+    transform: translate3d(0, var(--parallax-y), 0) scale(1);
   }
 }
 
