@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI发帖助手 | 首页高保真原型</title>
+    <meta name="description" content="AI Post Studio 首页入口高保真设计预览。" />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="ai-post-studio.css" />
+  </head>
+  <body>
+    <main class="preview-shell" aria-label="AI发帖助手高保真预览">
+      <section class="phone-frame">
+        <div class="status-bar" aria-hidden="true">
+          <span>9:41</span>
+          <div class="status-icons">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div class="app-screen">
+          <div class="top-area">
+            <header class="app-nav">
+              <button class="icon-button" type="button" aria-label="返回">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <div>
+                <p>AI Post Studio</p>
+                <h1>AI发帖助手</h1>
+              </div>
+              <button class="history-button" type="button">历史</button>
+            </header>
+
+            <section class="hero-panel" aria-labelledby="hero-title">
+              <img
+                class="hero-image hero-image-main"
+                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=640&q=85"
+                alt=""
+              />
+              <img
+                class="hero-image hero-image-float"
+                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=360&q=85"
+                alt=""
+              />
+              <div class="hero-copy">
+                <span class="ai-pill">AI Native</span>
+                <h2 id="hero-title">让 AI 陪你创作</h2>
+                <p>从一个想法，到一篇好看的帖子</p>
+                <div class="hero-tags" aria-label="核心能力">
+                  <span>生图</span>
+                  <span>修图</span>
+                  <span>发帖</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <section class="creation-card" aria-labelledby="creation-title">
+            <div class="creation-orbit" aria-hidden="true"></div>
+            <div class="creation-head">
+              <span>创作中枢</span>
+              <strong>AI辅助创作</strong>
+            </div>
+            <h2 id="creation-title">今天想象一张什么图？</h2>
+            <div class="prompt-box">
+              <span class="prompt-label">输入一句话描述你的图片</span>
+              <textarea rows="3" placeholder="例：夏天海边，日落，胶片感照片"></textarea>
+              <button class="voice-chip" type="button" aria-label="长按进行语音输入">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z" />
+                  <path d="M5 10v2a7 7 0 0 0 14 0v-2" />
+                  <path d="M12 19v3" />
+                </svg>
+                长按说话
+              </button>
+            </div>
+            <div class="creation-actions">
+              <button class="generate-button" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8L12 2Z" />
+                  <path d="M19 15l.8 2.4L22 18l-2.2.6L19 21l-.8-2.4L16 18l2.2-.6L19 15Z" />
+                </svg>
+                生成
+              </button>
+            </div>
+          </section>
+
+          <section class="inspiration-section" aria-labelledby="inspiration-title">
+            <div class="section-title-row">
+              <h2 id="inspiration-title">推荐灵感</h2>
+              <button type="button">换一批</button>
+            </div>
+            <div class="inspiration-grid">
+              <article class="inspiration-card">
+                <img
+                  src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=85"
+                  alt="夏日海边参考图"
+                />
+                <div>
+                  <h3>海边照片</h3>
+                  <p>日落 · 胶片 · 松弛感</p>
+                </div>
+              </article>
+              <article class="inspiration-card">
+                <img
+                  src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=500&q=85"
+                  alt="胶片自拍参考图"
+                />
+                <div>
+                  <h3>胶片自拍</h3>
+                  <p>逆光 · 人像 · 氛围感</p>
+                </div>
+              </article>
+              <article class="inspiration-card">
+                <img
+                  src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=500&q=85"
+                  alt="萌宠头像参考图"
+                />
+                <div>
+                  <h3>萌宠头像</h3>
+                  <p>可爱 · 插画 · 头像</p>
+                </div>
+              </article>
+              <article class="inspiration-card">
+                <img
+                  src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=500&q=85"
+                  alt="城市漫步参考图"
+                />
+                <div>
+                  <h3>城市漫步</h3>
+                  <p>街头 · 电影 · 雨天</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="recent-section" aria-labelledby="recent-title">
+            <div class="section-title-row">
+              <h2 id="recent-title">最近</h2>
+              <button type="button">查看全部</button>
+            </div>
+            <div class="recent-list">
+              <img
+                src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=260&q=85"
+                alt="最近创作人像"
+              />
+              <img
+                src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=260&q=85"
+                alt="最近创作风景"
+              />
+              <img
+                src="https://images.unsplash.com/photo-1514986888952-8cd320577b68?auto=format&fit=crop&w=260&q=85"
+                alt="最近创作美食"
+              />
+              <button class="recent-add" type="button" aria-label="新建创作">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 5v14" />
+                  <path d="M5 12h14" />
+                </svg>
+              </button>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
