@@ -2798,9 +2798,10 @@ h2 {
 
 .hero h1 span {
   display: block;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
-  clip-path: inset(0 0 10% 0);
+  padding-bottom: 0.16em;
+  margin-bottom: -0.11em;
+  line-height: 0.98;
+  clip-path: inset(0);
   opacity: 0;
   filter: blur(8px);
   transform: translateY(58px) scaleX(0.78);
