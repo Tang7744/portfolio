@@ -77,6 +77,11 @@ if (canvas && ctx) {
 const openingAnimation = document.querySelector(".opening-animation");
 const openingCount = document.querySelector(".opening-count");
 const openingStorageKey = "yihan-portfolio-opening-played";
+const heroImage = document.querySelector(".hero-visual img");
+
+if (heroImage?.decode) {
+  heroImage.decode().catch(() => {});
+}
 
 const markOpeningSeen = () => {
   try {

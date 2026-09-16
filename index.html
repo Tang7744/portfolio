@@ -8,6 +8,7 @@
       name="description"
       content="唐艺菡个人作品集网站 - UI/UX、品牌视觉、活动视觉设计。"
     />
+    <link rel="preload" as="image" href="images/hero- element.png" fetchpriority="high" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="is-opening">
@@ -48,7 +49,7 @@
           </h1>
         </div>
         <div class="hero-visual" aria-hidden="true">
-          <img src="images/hero- element.png" alt="" />
+          <img src="images/hero- element.png" alt="" fetchpriority="high" loading="eager" decoding="async" />
         </div>
       </section>
 
@@ -56,12 +57,57 @@
         <div class="about-grid">
           <div class="about-intro about-panel">
             <p class="eyebrow">@yihantang</p>
-            <h2>Hi～</h2>
-            <p class="intro-name">我是唐艺菡</p>
+            <h2 class="intro-hello">
+              <span>Hi! 我是</span>
+              <span class="intro-name-pill">唐艺菡</span>
+            </h2>
+            <p class="intro-name">
+              <span class="intro-role-pill">UI Visual Designer</span>
+              <span class="intro-role-pill">Brand Designer</span>
+              <span class="intro-role-pill">Experience design</span>
+            </p>
             <p class="lead">
               在工作和学习中做一个靠谱的人，从用户角度出发，做让人看得懂的设计。
               在生活中做一个有趣的人，画插画、徒步、跳舞，可以做斜杠青年。
             </p>
+            <div class="intro-tag-stack" aria-label="生活兴趣标签">
+              <span class="intro-fun-tag intro-tag-painting">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3.5c-4.7 0-8.5 3.2-8.5 7.4 0 3.4 2.5 6 5.9 6h1.1c.8 0 1.3.5 1.3 1.2 0 .8.7 1.4 1.6 1.4 4 0 7.1-3.4 7.1-7.8 0-4.7-3.5-8.2-8.5-8.2Z" />
+                  <circle cx="8" cy="10" r="1.1" />
+                  <circle cx="11.5" cy="7.7" r="1.1" />
+                  <circle cx="15.4" cy="9.1" r="1.1" />
+                  <circle cx="16" cy="13" r="1.1" />
+                </svg>
+                painting
+              </span>
+              <span class="intro-fun-tag intro-tag-coding">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m9 7-5 5 5 5" />
+                  <path d="m15 7 5 5-5 5" />
+                  <path d="m13 5-2 14" />
+                </svg>
+                vibe coding
+              </span>
+              <span class="intro-fun-tag intro-tag-hiking">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m3.5 18 5.2-8.2 3.2 4.7 2.1-3.1L20.5 18H3.5Z" />
+                  <path d="M8.7 9.8 11 13l1.3-2" />
+                  <circle cx="16" cy="6" r="1.9" />
+                </svg>
+                hiking
+              </span>
+              <span class="intro-fun-tag intro-tag-dance">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M10.3 4.2c1.4 1.8 3.1 2.8 5.2 3.1" />
+                  <path d="M12.1 7.1 9.8 12l3.1 2.1-1.8 5.7" />
+                  <path d="m9.8 12-3.4 2.4" />
+                  <path d="m12.9 14.1 3.8 3.6" />
+                  <circle cx="11.7" cy="4.3" r="1.5" />
+                </svg>
+                dance
+              </span>
+            </div>
           </div>
           <aside class="profile-card" aria-label="唐艺菡个人身份卡片">
             <div class="lanyard-badge" aria-hidden="true">
@@ -191,9 +237,18 @@
       </section>
 
       <section class="section projects" id="projects">
-        <div class="section-heading wide">
-          <p class="eyebrow">Selected Works</p>
-          <h2>精选项目</h2>
+        <div class="section-heading wide project-statement-heading">
+          <h2 class="project-statement">
+            <span class="statement-muted">Exploring</span>
+            <span>visual language</span>
+            <img class="statement-inline-image" src="images/strength-card03.png" alt="" aria-hidden="true" />
+            <span class="statement-muted">and</span>
+            <span>user experience</span>
+            <span class="statement-muted">across</span>
+            <span>static</span>
+            <span class="statement-muted">and</span>
+            <span>dynamic works</span>
+          </h2>
         </div>
         <div class="project-list">
           <a class="project-card" href="bangbangdai.html" aria-label="查看帮帮带小程序项目详情">
@@ -248,9 +303,16 @@
       </section>
 
       <section class="section strengths" id="strengths">
-        <div class="section-heading">
-          <p class="eyebrow">Design Advantages</p>
-          <h2>做个有趣的人</h2>
+        <div class="section-heading wide strengths-heading">
+          <h2 class="strengths-statement">
+            <span class="statement-muted">Embrace</span>
+            <span>more experiences</span>
+            <img class="statement-inline-image" src="images/Travel-picture4.jpg" alt="" aria-hidden="true" />
+            <span class="statement-muted">and</span>
+            <span>behold</span>
+            <span class="statement-muted">a broader</span>
+            <span>world</span>
+          </h2>
         </div>
         <div class="strength-grid">
           <article class="collage-stack">
