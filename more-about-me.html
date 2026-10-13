@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>More about me | 唐艺菡</title>
+    <meta name="description" content="唐艺菡个人作品集 More about me 独立二级页面。" />
+    <link rel="preload" as="image" href="assets/More%20about%20me/window.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="assets/More%20about%20me/screen.png" fetchpriority="high" />
+    <link rel="stylesheet" href="more-about-me.css?v=20260918-3" />
+  </head>
+  <body>
+    <main class="more-page" aria-label="More about me">
+      <section class="more-scene more-scene-window" aria-labelledby="more-hero-title">
+        <h1 id="more-hero-title" class="sr-only">About me</h1>
+        <div class="artboard artboard-window">
+          <div class="window-unit">
+            <img class="window-screen" src="assets/More%20about%20me/screen.png" alt="" decoding="async" />
+            <img class="window-frame" src="assets/More%20about%20me/window.png" alt="" fetchpriority="high" />
+            <p class="window-label">About me</p>
+          </div>
+          <img class="stroke-top" src="assets/More%20about%20me/Vector%209%20(Stroke).png" alt="" fetchpriority="high" />
+          <img class="stroke-bottom" src="assets/More%20about%20me/下面的笔画.png" alt="" fetchpriority="high" />
+
+          <p class="handle">@yihan Tang</p>
+          <p class="left-copy">Collecting fleeting moments<br />along the way</p>
+          <img class="year-hero" src="assets/More%20about%20me/2026.png" alt="2026" />
+          <p class="right-copy">Born in the summer,<br />in pursuit of a vibrant life.</p>
+        </div>
+      </section>
+
+      <section class="more-scene more-scene-signs" aria-labelledby="signs-title">
+        <h2 id="signs-title" class="sr-only">我的经历路牌</h2>
+        <div class="artboard artboard-signs">
+          <img class="road road-1" src="assets/More%20about%20me/Line%209.png" alt="" aria-hidden="true" />
+          <img class="road road-2" src="assets/More%20about%20me/Line%201.png" alt="" aria-hidden="true" />
+          <img class="road road-3" src="assets/More%20about%20me/Line%201.png" alt="" aria-hidden="true" />
+          <img class="road road-4" src="assets/More%20about%20me/Line%206.png" alt="" aria-hidden="true" />
+          <img class="road road-5" src="assets/More%20about%20me/Line%201.png" alt="" aria-hidden="true" />
+          <img class="road road-6" src="assets/More%20about%20me/Line%208.png" alt="" aria-hidden="true" />
+          <img class="road road-7" src="assets/More%20about%20me/Line%207.png" alt="" aria-hidden="true" />
+
+          <button class="sign sign-dialect clickable-sign" type="button" data-topic="dialect" aria-label="2024 方言万花筒">
+            <img src="assets/More%20about%20me/方言.png" alt="" />
+            <img class="sign-year sign-year-2024" src="assets/More%20about%20me/2024.png" alt="2024" />
+            <span class="dialect-title">方言万花筒</span>
+          </button>
+
+          <button class="sign sign-grad clickable-sign" type="button" data-topic="graduation">
+            <img src="assets/More%20about%20me/毕业.png" alt="" />
+            <span class="grad-title">毕业设计</span>
+            <span class="grad-tag">悬丝自诊</span>
+            <img class="sign-year sign-year-2025" src="assets/More%20about%20me/2025.png" alt="2025" />
+          </button>
+
+          <button class="sign sign-code clickable-sign" type="button" data-topic="burger" aria-label="2026 秘制汉堡，vibe coding">
+            <img src="assets/More%20about%20me/Ellipse%201.png" alt="" />
+            <img class="code-year" src="assets/More%20about%20me/2026%20.png" alt="2026" />
+            <span class="code-title">秘制汉堡<span aria-hidden="true">🍔</span></span>
+            <span class="code-note">vibe coding</span>
+          </button>
+          <img class="sign sign-never" src="assets/More%20about%20me/Group%207.png" alt="Never turn back. Keep moving forward." />
+          <img class="sign sign-left" src="assets/More%20about%20me/02.png" alt="" />
+          <img class="sign sign-no-walk" src="assets/More%20about%20me/01.png" alt="" />
+          <button class="zine-cluster clickable-sign" type="button" data-topic="zine" aria-label="ZINE">
+            <img class="sign-zine-board" src="assets/More%20about%20me/Group%209.png" alt="" />
+            <img class="sign-zine-type" src="assets/More%20about%20me/ZINE.png" alt="ZINE" />
+          </button>
+        </div>
+      </section>
+
+      <section class="chat-scene" aria-labelledby="chat-title">
+        <div class="chat-shell">
+          <header class="chat-header">
+            <div>
+              <p>@yihan Tang</p>
+              <h2 id="chat-title">和我的智能分身聊聊</h2>
+            </div>
+            <span class="chat-status">online</span>
+          </header>
+
+          <div class="chat-thread" id="chatThread" aria-live="polite">
+            <div class="bubble bot">Hello 哇，我是小唐儿～</div>
+          </div>
+
+          <form class="chat-input-row" id="chatForm">
+            <div class="quick-questions" aria-label="快捷问题">
+              <button type="button" data-question="你喜欢哪些动漫？">动漫推荐</button>
+              <button type="button" data-question="你平时玩什么游戏？">最近玩什么</button>
+              <button type="button" data-question="你在哪里实习过？">实习经历</button>
+              <button type="button" data-question="作品集里最值得看的项目？">推荐项目</button>
+              <button type="button" data-question="怎么联系你？">联系方式</button>
+            </div>
+            <label class="sr-only" for="visitorQuestion">输入问题</label>
+            <input id="visitorQuestion" name="question" autocomplete="off" maxlength="160" placeholder="问问小唐儿..." />
+            <button type="submit" aria-label="发送问题">发送</button>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script src="assets/More%20about%20me/knowledge-base.js?v=20260918-2"></script>
+    <script src="more-about-me.js?v=20260918-2"></script>
+  </body>
+</html>
